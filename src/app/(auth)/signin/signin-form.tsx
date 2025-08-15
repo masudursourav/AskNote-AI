@@ -11,14 +11,18 @@ import {
   FormMessage,
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
+import { useAuthActions } from "@convex-dev/auth/react";
 import { zodResolver } from "@hookform/resolvers/zod";
+import { useRouter } from "next/navigation";
 import { useState } from "react";
 import { useForm } from "react-hook-form";
+import { toast } from "sonner";
 import { AuthFormValues, signinSchema } from "../schema";
-
 export function SigninForm() {
   const [step, setStep] = useState<"signIn" | "signUp">("signIn");
-
+  const { signIn } = useAuthActions();
+  const [isLoading, setIsLoading] = useState(false);
+  const router = useRouter();
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -28,7 +32,35 @@ export function SigninForm() {
   });
 
   async function onSubmit(values: AuthFormValues) {
-    // TODO: Sign in
+    setIsLoading(true);
+    try {
+      await signIn("password", {
+        ...values,
+        flow: step,
+      });
+      toast.success(
+        step === "signIn"
+          ? "Successfully signed in!"
+          : "Successfully signed up!"
+      );
+      router.push("/notes");
+    } catch (error) {
+      console.error("Failed to sign in:", error);
+      if (
+        error instanceof Error &&
+        (error.message.includes("InvalidAccountId") ||
+          error.message.includes("InvalidSecret"))
+      ) {
+        form.setError("root", {
+          type: "manual",
+          message: "Invalid email or password. Please try again.",
+        });
+      } else {
+        toast.error("Failed to sign in. Please try again later.");
+      }
+    } finally {
+      setIsLoading(false);
+    }
   }
 
   return (
@@ -81,7 +113,7 @@ export function SigninForm() {
                 {form.formState.errors.root.message}
               </div>
             )}
-            <Button type="submit" className="w-full">
+            <Button type="submit" className="w-full" disabled={isLoading}>
               {step === "signIn" ? "Sign In" : "Sign Up"}
             </Button>
           </form>
