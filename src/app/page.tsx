@@ -11,7 +11,7 @@ export default function Home() {
         <div className="mb-8">
           <Image
             src={logo}
-            alt="Smart Notes Logo"
+            alt="AskNote Logo"
             width={120}
             height={120}
             className="mx-auto"
@@ -20,7 +20,7 @@ export default function Home() {
         </div>
         {/* Title */}
         <h1 className="text-4xl sm:text-5xl lg:text-6xl font-bold tracking-tight">
-          Smart Notes
+          AskNote - note it, ask it, find it
         </h1>
         {/* Description */}
         <p className="text-lg sm:text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed">
