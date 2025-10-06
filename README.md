@@ -7,10 +7,11 @@
   
   Ask questions about your notes and get instant, intelligent responses powered by AI.
 
-  [![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
-  [![Convex](https://img.shields.io/badge/Convex-1.24.8-blue)](https://convex.dev/)
-  [![AI SDK](https://img.shields.io/badge/AI_SDK-5.0.0--alpha-green)](https://sdk.vercel.ai/)
-  [![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+[![Next.js](https://img.shields.io/badge/Next.js-15.3.3-black)](https://nextjs.org/)
+[![Convex](https://img.shields.io/badge/Convex-1.24.8-blue)](https://convex.dev/)
+[![AI SDK](https://img.shields.io/badge/AI_SDK-5.0.0--alpha-green)](https://sdk.vercel.ai/)
+[![TypeScript](https://img.shields.io/badge/TypeScript-5.0-blue)](https://www.typescriptlang.org/)
+
 </div>
 
 ## ✨ Features
@@ -35,7 +36,7 @@ graph TD
     F --> G[Google AI Models]
     G --> H[Text Embeddings]
     G --> I[Gemini Chat]
-    
+
     subgraph "Data Flow"
         J[Create Note] --> K[Generate Embeddings]
         K --> L[Store in Vector DB]
@@ -47,6 +48,7 @@ graph TD
 ## 🛠️ Tech Stack
 
 ### Frontend
+
 - **Next.js 15** - React framework with App Router
 - **React 19** - Latest React with concurrent features
 - **TypeScript** - Type-safe development
@@ -55,12 +57,14 @@ graph TD
 - **Lucide React** - Beautiful icons
 
 ### Backend & AI
+
 - **Convex** - Real-time database and backend
 - **AI SDK** - Unified AI interface
 - **Google AI** - Gemini 2.0 Flash & Text Embeddings
 - **Vector Search** - Semantic similarity matching
 
 ### Development
+
 - **ESLint** - Code linting
 - **PostCSS** - CSS processing
 - **Yarn** - Package management
@@ -77,40 +81,45 @@ graph TD
 ### Installation
 
 1. **Clone the repository**
+
    ```bash
    git clone https://github.com/masudursourav/AskNote-AI.git
    cd AskNote-AI
    ```
 
 2. **Install dependencies**
+
    ```bash
    yarn install
    ```
 
 3. **Set up Convex**
+
    ```bash
    yarn global add convex
    npx convex dev
    ```
 
 4. **Configure environment variables**
-   
+
    Create a `.env.local` file in the root directory:
+
    ```env
    # Convex (automatically set by `npx convex dev`)
    NEXT_PUBLIC_CONVEX_URL=your_convex_url
-   
+
    # Google AI API Key
    GOOGLE_GENERATIVE_AI_API_KEY=your_google_ai_api_key
    ```
 
 5. **Start the development server**
+
    ```bash
    yarn dev
    ```
 
 6. **Open your browser**
-   
+
    Navigate to [http://localhost:3000](http://localhost:3000)
 
 ### Database Setup
@@ -124,16 +133,19 @@ The app uses Convex with the following schema:
 ## 📖 Usage
 
 ### Creating Notes
+
 1. Click the "Create Note" button
 2. Add a title and content
 3. The app automatically generates embeddings for AI search
 
 ### AI Chat
+
 1. Click the "Ask AI" button
 2. Ask questions about your notes
 3. Get intelligent responses with relevant note links
 
 ### Examples of AI Queries
+
 - "What did I write about machine learning?"
 - "Find notes about my vacation plans"
 - "Summarize my meeting notes from last week"
@@ -141,12 +153,15 @@ The app uses Convex with the following schema:
 ## 🔧 Configuration
 
 ### Google AI Setup
+
 1. Get an API key from [Google AI Studio](https://makersuite.google.com/app/apikey)
 2. Add it to your environment variables
 3. The app uses `text-embedding-004` for embeddings and `gemini-2.0-flash` for chat
 
 ### Convex Configuration
+
 The Convex schema supports:
+
 - User authentication
 - Note storage with user isolation
 - Vector search with 768-dimensional embeddings
@@ -175,12 +190,14 @@ The Convex schema supports:
 ## 🚀 Deployment
 
 ### Deploy on Vercel
+
 1. Push your code to GitHub
 2. Connect your repository to [Vercel](https://vercel.com)
 3. Add environment variables in Vercel dashboard
 4. Deploy automatically on push
 
 ### Deploy Convex
+
 ```bash
 npx convex deploy
 ```
