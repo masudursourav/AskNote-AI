@@ -1,10 +1,5 @@
 "use client";
 
-import { zodResolver } from "@hookform/resolvers/zod";
-import { useState } from "react";
-import { useForm } from "react-hook-form";
-import { z } from "zod";
-
 import { Button } from "@/components/ui/button";
 import {
   Dialog,
@@ -24,9 +19,13 @@ import {
 } from "@/components/ui/form";
 import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
-import { useMutation } from "convex/react";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useAction } from "convex/react";
 import { Plus } from "lucide-react";
+import { useState } from "react";
+import { useForm } from "react-hook-form";
 import { toast } from "sonner";
+import { z } from "zod";
 import { api } from "../../../../convex/_generated/api";
 
 const noteFormSchema = z.object({
@@ -58,7 +57,8 @@ interface CreateNoteDialogProps {
 }
 
 function CreateNoteDialog({ open, onOpenChange }: CreateNoteDialogProps) {
-  const createNote = useMutation(api.notes.createNotes);
+  const createNote = useAction(api.notesActions.createNote);
+
   const form = useForm<z.infer<typeof noteFormSchema>>({
     resolver: zodResolver(noteFormSchema),
     defaultValues: {
@@ -66,7 +66,9 @@ function CreateNoteDialog({ open, onOpenChange }: CreateNoteDialogProps) {
       body: "",
     },
   });
+
   const isSubmitting = form.formState.isSubmitting;
+
   async function onSubmit(values: z.infer<typeof noteFormSchema>) {
     try {
       await createNote({
@@ -77,8 +79,8 @@ function CreateNoteDialog({ open, onOpenChange }: CreateNoteDialogProps) {
       form.reset();
       onOpenChange(false);
     } catch (error) {
-      toast.error("Error creating note. Please try again.");
       console.error("Error creating note:", error);
+      toast.error("Failed to create note. Please try again.");
     }
   }
 

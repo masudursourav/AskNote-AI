@@ -14,35 +14,38 @@ import { useSearchParams } from "next/navigation";
 import { useState } from "react";
 import { toast } from "sonner";
 import { api } from "../../../../convex/_generated/api";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { Doc } from "../../../../convex/_generated/dataModel";
+
 interface NotePreviewDialogProps {
-  note: {
-    _id: Id<"notes">;
-    title: string;
-    body: string;
-  };
+  note: Doc<"notes">;
 }
+
 export function NotePreviewDialog({ note }: NotePreviewDialogProps) {
   const searchParams = useSearchParams();
   const isOpen = searchParams.get("noteId") === note._id;
-  const handleClose = () => {
-    window.history.pushState(null, "", window.location.pathname);
-  };
+
   const deleteNote = useMutation(api.notes.deleteNote);
-  const [isDeleting, setIsDeleting] = useState(false);
-  const handleDelete = async () => {
+  const [deletePending, setDeletePending] = useState(false);
+
+  async function handleDelete() {
+    setDeletePending(true);
     try {
-      setIsDeleting(true);
-      await deleteNote({ id: note._id });
+      await deleteNote({ noteId: note._id });
       toast.success("Note deleted");
-    } catch (e) {
-      toast.error("Failed to delete note");
-      console.error(e);
-    } finally {
-      setIsDeleting(false);
       handleClose();
+    } catch (error) {
+      console.error("Failed to delete note", error);
+      toast.error("Failed to delete note. Please try again.");
+    } finally {
+      setDeletePending(false);
     }
-  };
+  }
+
+  function handleClose() {
+    if (deletePending) return;
+    window.history.pushState(null, "", window.location.pathname);
+  }
+
   return (
     <Dialog open={isOpen} onOpenChange={handleClose}>
       <DialogContent className="sm:max-w-[625px]">
@@ -55,10 +58,10 @@ export function NotePreviewDialog({ note }: NotePreviewDialogProps) {
             variant="destructive"
             className="gap-2"
             onClick={handleDelete}
-            disabled={isDeleting}
+            disabled={deletePending}
           >
             <Trash2 size={16} />
-            {isDeleting ? "Deleting..." : "Delete Note"}
+            {deletePending ? "Deleting..." : "Delete Note"}
           </Button>
         </DialogFooter>
       </DialogContent>
