@@ -1,9 +1,10 @@
-import ConvexClientProvider from "@/app/convex-client-provider";
 import { Toaster } from "@/components/ui/sonner";
 import { ConvexAuthNextjsServerProvider } from "@convex-dev/auth/nextjs/server";
 import type { Metadata } from "next";
 import { Geist } from "next/font/google";
+import { ConvexClientProvider } from "./convex-client-provider";
 import "./globals.css";
+
 const geistSans = Geist({
   variable: "--font-geist-sans",
   subsets: ["latin"],
@@ -11,8 +12,8 @@ const geistSans = Geist({
 
 export const metadata: Metadata = {
   title: {
-    template: "%s | AskNote",
-    default: "AskNote - note it, ask it, find it",
+    template: "%s | AskNote-AI",
+    default: "AskNote-AI",
   },
   description:
     "A note-taking app with AI chatbot integration built with Convex and the Vercel AI SDK.",

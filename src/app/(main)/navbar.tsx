@@ -14,12 +14,12 @@ export function Navbar() {
         >
           <Image
             src={logo}
-            alt="Logo"
+            alt="AskNote-AI Logo"
             width={32}
             height={32}
             className="rounded"
           />
-          AskNote
+          AskNote-AI
         </Link>
         <div className="flex items-center gap-2">
           <ModeToggle />

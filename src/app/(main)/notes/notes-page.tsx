@@ -1,4 +1,5 @@
 "use client";
+
 import { Skeleton } from "@/components/ui/skeleton";
 import { useQuery } from "convex/react";
 import { api } from "../../../../convex/_generated/api";
@@ -26,7 +27,7 @@ export function NotesPage() {
       ) : (
         <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 gap-4">
           {notes.map((note) => (
-            <NoteItem key={note._id.toString()} note={note} /> 
+            <NoteItem key={note._id} note={note} />
           ))}
         </div>
       )}

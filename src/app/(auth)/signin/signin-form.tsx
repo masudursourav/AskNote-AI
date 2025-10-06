@@ -18,11 +18,15 @@ import { useState } from "react";
 import { useForm } from "react-hook-form";
 import { toast } from "sonner";
 import { AuthFormValues, signinSchema } from "../schema";
+
 export function SigninForm() {
   const [step, setStep] = useState<"signIn" | "signUp">("signIn");
+
   const { signIn } = useAuthActions();
   const [isLoading, setIsLoading] = useState(false);
+
   const router = useRouter();
+
   const form = useForm<AuthFormValues>({
     resolver: zodResolver(signinSchema),
     defaultValues: {
@@ -40,12 +44,12 @@ export function SigninForm() {
       });
       toast.success(
         step === "signIn"
-          ? "Successfully signed in!"
-          : "Successfully signed up!"
+          ? "Signed in successfully"
+          : "Account created successfully"
       );
       router.push("/notes");
     } catch (error) {
-      console.error("Failed to sign in:", error);
+      console.error(error);
       if (
         error instanceof Error &&
         (error.message.includes("InvalidAccountId") ||
@@ -53,10 +57,10 @@ export function SigninForm() {
       ) {
         form.setError("root", {
           type: "manual",
-          message: "Invalid email or password. Please try again.",
+          message: "Invalid credentials.",
         });
       } else {
-        toast.error("Failed to sign in. Please try again later.");
+        toast.error("Something went wrong. Please try again.");
       }
     } finally {
       setIsLoading(false);

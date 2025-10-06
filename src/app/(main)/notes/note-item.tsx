@@ -1,20 +1,18 @@
 "use client";
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import { Id } from "../../../../convex/_generated/dataModel";
+import { Doc } from "../../../../convex/_generated/dataModel";
 import { NotePreviewDialog } from "./note-preview-dialog";
 
 interface NoteItemProps {
-  note: {
-    _id: Id<"notes">;
-    title: string;
-    body: string;
-  };
+  note: Doc<"notes">;
 }
+
 export function NoteItem({ note }: NoteItemProps) {
   function handleOpenNote() {
     window.history.pushState(null, "", `?noteId=${note._id}`);
   }
+
   return (
     <>
       <Card
